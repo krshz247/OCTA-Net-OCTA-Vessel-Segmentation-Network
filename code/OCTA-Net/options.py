@@ -5,11 +5,11 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--gpu_id", type=str, default="0", help="device")
-parser.add_argument("--dataset", type=str, default="cria", choices=["rose", "cria", "drive"], help="dataset")  # choices可扩展
+parser.add_argument("--dataset", type=str, default="rose", choices=["rose", "cria", "drive"], help="dataset")  # choices可扩展
 parser.add_argument("--mode", type=str, default="train", choices=["train", "test"], help="train or test")
 
 # data settings
-parser.add_argument("--data_dir", type=str, default="/media/imed/data/mayuhui/TMI_OCTA_vseg/data/OCTA/CRIA", help="path to folder for getting dataset")
+parser.add_argument("--data_dir", type=str, default="/home/kourosh/Drive/School/Thesis/datasets/Rose/ROSE-1/SVC", help="path to folder for getting dataset")
 parser.add_argument("--input_nc", type=int, default=3, choices=[1, 3], help="gray or rgb")
 parser.add_argument("--crop_size", type=int, default=512, help="crop size")
 parser.add_argument("--scale_size", type=int, default=512, help="scale size (applied in drive and cria)")
