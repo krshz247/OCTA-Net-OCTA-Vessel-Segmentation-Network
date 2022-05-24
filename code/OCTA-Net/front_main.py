@@ -54,9 +54,9 @@ if isTraining:  # train
     thin_criterion = torch.nn.MSELoss()  # 可更改
     fusion_criterion = torch.nn.MSELoss()  # 可更改
 
-    best_thin = {"epoch": 0, "dice": 0}
-    best_thick = {"epoch": 0, "dice": 0}
-    best_fusion = {"epoch": 0, "dice": 0}
+    best_thin = {"epoch": 0, "dice": 0, "auc": 0}
+    best_thick = {"epoch": 0, "dice": 0, "auc": 0}
+    best_fusion = {"epoch": 0, "dice": 0, "auc": 0}
     # start training
     print("Start training...")
     for epoch in range(args.first_epochs):
