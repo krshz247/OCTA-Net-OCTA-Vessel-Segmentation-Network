@@ -132,3 +132,7 @@ dmypy.json
 # dataset
 *.tif
 *.png
+
+#logs
+models/
+logs/
