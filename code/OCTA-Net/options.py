@@ -9,14 +9,14 @@ parser.add_argument("--dataset", type=str, default="rose", choices=["rose", "cri
 parser.add_argument("--mode", type=str, default="train", choices=["train", "test"], help="train or test")
 
 # data settings
-parser.add_argument("--data_dir", type=str, default="/home/kourosh/Drive/School/Thesis/datasets/Rose/ROSE-1/SVC", help="path to folder for getting dataset")
+parser.add_argument("--data_dir", type=str, default="/mnt/3AB8D1B3B8D16DBF/kourosh/models/OCTA-Net-OCTA-Vessel-Segmentation-Network/ROSE/data/ROSE-1/SVC", help="path to folder for getting dataset")
 parser.add_argument("--input_nc", type=int, default=3, choices=[1, 3], help="gray or rgb")
 parser.add_argument("--crop_size", type=int, default=512, help="crop size")
 parser.add_argument("--scale_size", type=int, default=512, help="scale size (applied in drive and cria)")
 
 # training
 parser.add_argument("--batch_size", type=int, default=2, help="batch size")
-parser.add_argument("--num_workers", type=int, default=64, help="number of threads")
+parser.add_argument("--num_workers", type=int, default=16, help="number of threads")
 parser.add_argument("--val_epoch_freq", type=int, default=1, help="frequency of validation at the end of epochs")
 parser.add_argument("--save_epoch_freq", type=int, default=5, help="frequency of saving models at the end of epochs")
 parser.add_argument("--init_lr", type=float, default=0.0003, help="initial learning rate")
