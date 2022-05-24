@@ -9,7 +9,8 @@ parser.add_argument("--dataset", type=str, default="rose", choices=["rose", "cri
 parser.add_argument("--mode", type=str, default="train", choices=["train", "test"], help="train or test")
 
 # data settings
-parser.add_argument("--data_dir", type=str, default="/mnt/3AB8D1B3B8D16DBF/kourosh/models/OCTA-Net-OCTA-Vessel-Segmentation-Network/ROSE/data/ROSE-1/SVC", help="path to folder for getting dataset")
+parser.add_argument("--data_dir", type=str, default="/mnt/3AB8D1B3B8D16DBF/kourosh/models/OCTA-Net-OCTA-Vessel-Segmentation-Network/ROSE/data/ROSE-1/SVC",
+                    help="path to folder for getting dataset")
 parser.add_argument("--input_nc", type=int, default=3, choices=[1, 3], help="gray or rgb")
 parser.add_argument("--crop_size", type=int, default=512, help="crop size")
 parser.add_argument("--scale_size", type=int, default=512, help="scale size (applied in drive and cria)")
@@ -33,8 +34,8 @@ parser.add_argument("--base_channels", type=int, default=64, help="basic channel
 parser.add_argument("--logs_dir", type=str, default="logs", help="path to folder for saving logs")
 parser.add_argument("--models_dir", type=str, default="models", help="path to folder for saving models")
 parser.add_argument("--results_dir", type=str, default="results", help="path to folder for saving results")
-parser.add_argument("--first_suffix", type=str, default="189-0.9019971996250081.pth", help="front_model-[model_suffix].pth will be loaded in models_dir")
-parser.add_argument("--first_suffix1", type=str, default="189-0.9019971996250081.pth", help="front_model-[model_suffix].pth will be loaded in models_dir")
+parser.add_argument("--first_suffix", type=str, default="best_thick.pth", help="front_model-[model_suffix].pth will be loaded in models_dir")
+parser.add_argument("--first_suffix1", type=str, default="best_thin.pth", help="front_model-[model_suffix].pth will be loaded in models_dir")
 parser.add_argument("--second_suffix", type=str, default="370-0.9035.pth", help="fusion_model-[model_suffix].pth will be loaded in models_dir")
 
 args = parser.parse_args()

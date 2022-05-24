@@ -30,7 +30,7 @@ class ROSE(data.Dataset):
         self.img_lst, self.gt_lst, self.deep_lst, self.superficial_lst = self.get_dataPath(root, isTraining)
         self.channel = channel
         self.isTraining = isTraining
-        self.name = ""
+        self.name = "rose"
 
         assert self.channel == 1 or self.channel == 3, "the channel must be 1 or 3"  # check the channel is 1 or 3
 
