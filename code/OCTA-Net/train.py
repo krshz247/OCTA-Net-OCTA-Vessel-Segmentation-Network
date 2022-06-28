@@ -14,18 +14,27 @@ def train_first_stage(viz, writer, dataloader, net, optimizer, base_lr, thin_cri
     for sample in dataloader:
         step += 1
         img = sample[0].to(device)
-        thin_gt = sample[2].to(device)
-        thick_gt = sample[3].to(device)
+        # for OCTA-500
+        gt = sample[1].to(device)
+        # thin_gt = sample[2].to(device)
+        # thick_gt = sample[3].to(device)
         # zero the parameter gradients
         optimizer.zero_grad()
         # forward
-        thick_pred, thin_pred, _ = net(img)
+        # thick_pred, thin_pred, _ = net(img)
+
+        pred, _, _ = net(img)
+
         viz.img(name="images", img_=img[0, :, :, :])
-        viz.img(name="thin labels", img_=thin_gt[0, :, :, :])
-        viz.img(name="thick labels", img_=thick_gt[0, :, :, :])
-        viz.img(name="thin prediction", img_=thin_pred[0, :, :, :])
-        viz.img(name="thick prediction", img_=thick_pred[0, :, :, :])
-        loss = thin_criterion(thin_pred, thin_gt) + thick_criterion(thick_pred, thick_gt)  # 可加权
+        viz.img(name="Lables", img_=gt[0, :, :, :])
+        # viz.img(name="thin labels", img_=thin_gt[0, :, :, :])
+        # viz.img(name="thick labels", img_=thick_gt[0, :, :, :])
+        # viz.img(name="thin prediction", img_=thin_pred[0, :, :, :])
+        # viz.img(name="thick prediction", img_=thick_pred[0, :, :, :])
+        viz.img(name="prediction", img_=pred[0, :, :, :])
+
+        # loss = thin_criterion(thin_pred, thin_gt) + thick_criterion(thick_pred, thick_gt)  # 可加权
+        loss = thin_criterion(pred, gt)
         loss.backward()
         optimizer.step()
         epoch_loss += loss.item()
@@ -58,8 +67,13 @@ def train_second_stage(viz, writer, dataloader, front_net_thick, front_net_thin,
         img = sample[0].to(device)
         gt = sample[1].to(device)
         with torch.no_grad():
-            thick_pred = front_net_thick(img)
-            thin_pred = front_net_thin(img)
+            # TODO: why is the dimension of the img [2, 3, 304, 304]?
+            thick_pred = front_net_thick(img)[0]
+            thin_pred = front_net_thin(img)[1]
+            # TODO: I concatinated the tensor tuple for the two above predictions!
+            # TODO: not sure if this is correct!
+            # thick_pred = torch.cat(list(thick_pred), dim=1)
+            # thin_pred = torch.cat(list(thin_pred), dim=1)
         # zero the parameter gradients
         optimizer.zero_grad()
         # forward

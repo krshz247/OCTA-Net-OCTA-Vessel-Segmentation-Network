@@ -31,7 +31,7 @@ sub_dir = args.dataset + "/second_stage_v2"  # + args.model + "/" + args.loss
 
 if isTraining:  # train
     NAME = args.dataset + "_second_stage_v2-2nd"  # + args.model + "_" + args.loss
-    viz = Visualizer(env=NAME)
+    viz = Visualizer(args.port, env=NAME)
     writer = SummaryWriter(args.logs_dir + "/" + sub_dir)
     mkdir(args.models_dir + "/" + sub_dir)  # two stage时可以创建first_stage和second_stage这两个子文件夹
 
@@ -45,6 +45,8 @@ if isTraining:  # train
     # first_net = SRF_UNet(img_ch=args.input_nc, output_ch=1).to(device)
     # first_net = torch.nn.DataParallel(first_net)
     # first_optim = optim.Adam(first_net.parameters(), lr=args.init_lr, weight_decay=args.weight_decay)
+
+    # TODO: where do saved thick and thin networks come from and how they are created?
     first_net_thick = torch.load(args.models_dir + "/" + args.dataset + "/first_stage/front_model-" + args.first_suffix).to(device)  # two stage时可以加载first_stage和second_stage的模型
     first_net_thick = first_net_thick.module
     first_net_thick.eval()

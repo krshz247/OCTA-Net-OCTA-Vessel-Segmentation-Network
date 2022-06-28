@@ -5,18 +5,18 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--gpu_id", type=str, default="0", help="device")
-parser.add_argument("--dataset", type=str, default="rose", choices=["rose", "cria", "drive"], help="dataset")  # choices可扩展
+parser.add_argument("--dataset", type=str, default="OCTA", choices=["rose", "cria", "drive"], help="dataset")  # choices可扩展
 parser.add_argument("--mode", type=str, default="train", choices=["train", "test"], help="train or test")
 
 # data settings
-parser.add_argument("--data_dir", type=str, default="/mnt/3AB8D1B3B8D16DBF/kourosh/models/OCTA-Net-OCTA-Vessel-Segmentation-Network/ROSE/data/ROSE-1/SVC",
+parser.add_argument("--data_dir", type=str, default="/mnt/3AB8D1B3B8D16DBF/kourosh/models/OCTA-Net-OCTA-Vessel-Segmentation-Network/OCTA_3M/Projection Maps/OCTA",
                     help="path to folder for getting dataset")
 parser.add_argument("--input_nc", type=int, default=3, choices=[1, 3], help="gray or rgb")
 parser.add_argument("--crop_size", type=int, default=512, help="crop size")
 parser.add_argument("--scale_size", type=int, default=512, help="scale size (applied in drive and cria)")
 
 # training
-parser.add_argument("--batch_size", type=int, default=2, help="batch size")
+parser.add_argument("--batch_size", type=int, default=5, help="batch size")
 parser.add_argument("--num_workers", type=int, default=16, help="number of threads")
 parser.add_argument("--val_epoch_freq", type=int, default=1, help="frequency of validation at the end of epochs")
 parser.add_argument("--save_epoch_freq", type=int, default=5, help="frequency of saving models at the end of epochs")
@@ -31,6 +31,7 @@ parser.add_argument("--pn_size", type=int, default=3, help="size of propagation 
 parser.add_argument("--base_channels", type=int, default=64, help="basic channels")
 
 # results
+parser.add_argument('--port', type=int, default=8065, help="port to Visdom visulization")
 parser.add_argument("--logs_dir", type=str, default="logs", help="path to folder for saving logs")
 parser.add_argument("--models_dir", type=str, default="models", help="path to folder for saving models")
 parser.add_argument("--results_dir", type=str, default="results", help="path to folder for saving results")

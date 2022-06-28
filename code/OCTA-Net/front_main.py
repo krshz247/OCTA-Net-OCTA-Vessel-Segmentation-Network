@@ -31,7 +31,7 @@ sub_dir = args.dataset + "/first_stage"  # + args.model + "/" + args.loss
 
 if isTraining:  # train
     NAME = args.dataset + "_first_stage-2nd"  # + args.model + "_" + args.loss
-    viz = Visualizer(env=NAME)
+    viz = Visualizer(port=args.port, env=NAME)
     writer = SummaryWriter(args.logs_dir + "/" + sub_dir)
     mkdir(args.models_dir + "/" + sub_dir)  # two stage时可以创建first_stage和second_stage这两个子文件夹
 
@@ -50,6 +50,7 @@ if isTraining:  # train
     # second_net = torch.nn.DataParallel(second_net)
     # second_optim = optim.Adam(second_net.parameters(), lr=args.init_lr, weight_decay=args.weight_decay)
 
+    criterion = torch.nn.MSELoss()
     thick_criterion = torch.nn.MSELoss()  # 可更改
     thin_criterion = torch.nn.MSELoss()  # 可更改
     fusion_criterion = torch.nn.MSELoss()  # 可更改
@@ -62,13 +63,20 @@ if isTraining:  # train
     for epoch in range(args.first_epochs):
         print('Epoch %d / %d' % (epoch + 1, args.first_epochs))
         print('-' * 10)
-        first_net = train_first_stage(viz, writer, train_dataloader, first_net, first_optim, args.init_lr, thin_criterion, thick_criterion, device, args.power, epoch, args.first_epochs)
+        first_net = train_first_stage(viz, writer, train_dataloader, first_net, first_optim, args.init_lr, thin_criterion, thick_criterion,
+                                      device, args.power, epoch, args.first_epochs)
         if (epoch + 1) % args.val_epoch_freq == 0 or epoch == args.first_epochs - 1:
-            first_net, best_thin, best_thick, best_fusion = val_first_stage(best_thin, best_thick, best_fusion,
-                                                                            viz, writer, val_dataloader, first_net,
-                                                                            thin_criterion, thick_criterion, fusion_criterion, device,
-                                                                            args.save_epoch_freq, args.models_dir + "/" + sub_dir,
-                                                                            args.results_dir + "/" + sub_dir, epoch, args.first_epochs)
+            first_net, best_fusion = val_first_stage(best_thin, best_thick, best_fusion,
+                                                     viz, writer, val_dataloader, first_net,
+                                                     thin_criterion, thick_criterion, fusion_criterion, device,
+                                                     args.save_epoch_freq, args.models_dir + "/" + sub_dir,
+                                                     args.results_dir + "/" + sub_dir, epoch, args.first_epochs)
+
+            # first_net, best_thin, best_thick, best_fusion = val_first_stage(best_thin, best_thick, best_fusion,
+            #                                                                 viz, writer, val_dataloader, first_net,
+            #                                                                 thin_criterion, thick_criterion, fusion_criterion, device,
+            #                                                                 args.save_epoch_freq, args.models_dir + "/" + sub_dir,
+            #                                                                 args.results_dir + "/" + sub_dir, epoch, args.first_epochs)
     print("Training finished.")
 
 else:  # test
@@ -79,5 +87,6 @@ else:  # test
 
     # start testing
     print("Start testing...")
-    test_first_stage(test_dataloader, net, device, args.results_dir + "/" + sub_dir, thin_criterion=None, thick_criterion=None, fusion_criterion=None,  isSave=True)
+    test_first_stage(test_dataloader, net, device, args.results_dir + "/" + sub_dir, thin_criterion=None, thick_criterion=None, fusion_criterion=None,
+                     isSave=True)
     print("Testing finished.")

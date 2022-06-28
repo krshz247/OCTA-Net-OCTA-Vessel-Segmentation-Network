@@ -44,7 +44,10 @@ def get_lr(optimizer):
 
 # 构建数据集，可扩展
 def build_dataset(dataset, data_dir, channel=1, isTraining=True, crop_size=(64, 64), scale_size=(512, 512)):
-    if dataset == "rose":
+    if dataset == "OCTA":
+        from octa_dataset import OCTA
+        database = OCTA(data_dir, channel=channel, isTraining=isTraining)
+    elif dataset == "rose":
         from octa_dataset import ROSE
         database = ROSE(data_dir, channel=channel, isTraining=isTraining)
     elif dataset == "cria":
@@ -55,7 +58,7 @@ def build_dataset(dataset, data_dir, channel=1, isTraining=True, crop_size=(64, 
         database = DRIVE(data_dir, channel=channel, isTraining=isTraining, scale_size=scale_size)
     else:
         raise NotImplementedError('dataset [%s] is not implemented' % dataset)
-    
+
     return database
 
 
@@ -79,7 +82,7 @@ def build_model(model, device, channel=1):
         net = SRF_UNet(img_ch=channel, output_ch=1).to(device)
     else:
         raise NotImplementedError('model [%s] is not implemented' % model)
-    
+
     return net
 
 
@@ -92,23 +95,26 @@ class Visualizer(object):
     self.histogram(t.randn(1000))
     self.line(t.arange(0, 10),t.arange(1, 11))
     """
-    def __init__(self, env="default", **kwargs):
-        self.vis = visdom.Visdom(env=env, **kwargs)
+
+    def __init__(self, port, env="default", **kwargs):
+        self.cfg = {"server": "localhost",
+                    "port": port}
+        self.vis = visdom.Visdom('http://' + self.cfg["server"], port=self.cfg["port"], env=env)
         self.env = env
         # 画的第几个数，相当于横坐标
         # 比如("loss", 23) 即loss的第23个点
         self.index = {}
         self.log_text = ""
-    
+
     def reinit(self, env="default", **kwargs):
         """
         修改visdom的配置
         """
-        self.vis = visdom.Visdom(env=env, **kwargs)
+        self.vis = visdom.Visdom('http://' + self.cfg["server"], port=self.cfg["port"], env=env)
         self.env = env
-        
+
         return self
-    
+
     def plot_many(self, d):
         """
         一次plot多个
@@ -116,14 +122,14 @@ class Visualizer(object):
         """
         for k, v in d.iteritems():
             self.plot(k, v)
-    
+
     def img_many(self, d):
         for k, v in d.iteritems():
             self.img(k, v)
-    
+
     def plot(self, name, y, **kwargs):
         # self.plot("loss", 1.00)
-        
+
         x = self.index.get(name, 0)
         self.vis.line(Y=np.array([y]), X=np.array([x]),
                       win=name,
@@ -132,7 +138,7 @@ class Visualizer(object):
                       **kwargs
                       )
         self.index[name] = x + 1
-    
+
     def img(self, name, img_, **kwargs):
         """
         self.img("input_img", t.Tensor(64, 64))
@@ -145,7 +151,7 @@ class Visualizer(object):
                         opts=dict(title=name),
                         **kwargs
                         )
-    
+
     def log(self, info, win="log_text"):
         """
         self.log({"loss": 1, "lr": 0.0001})
@@ -153,7 +159,7 @@ class Visualizer(object):
         self.log_text += ("[{time}] {info} <br>".format(
             time=time.strftime("%m%d_%H%M%S"), info=info))
         self.vis.text(self.log_text, win)
-    
+
     def __getattr__(self, name):
         """
         self.function 等价于self.vis.function
