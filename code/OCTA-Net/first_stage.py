@@ -4,7 +4,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import init
-from torchvision import models
 import resnest
 from splat import SplAtConv2d
 
@@ -184,18 +183,17 @@ class SRF_UNet(nn.Module):
         d1_thick = self.Up_conv1_thick(d1_thick)
 
         d1_thick = self.Conv_1x1_thick(d1_thick)
+
+        # NOTE: used sigmoid?!
         out_thick = nn.Sigmoid()(d1_thick)
 
         """
         d5_thin = self.Up5_thin(x5)
         d5_thin = torch.cat((x4, d5_thin), dim=1)
-        
         d5_thin = self.Up_conv5_thin(d5_thin)
-        
         d4_thin = self.Up4_thin(d5_thin)
         d4_thin = torch.cat((x3, d4_thin), dim=1)
         d4_thin = self.Up_conv4_thin(d4_thin)
-        
         d3_thin = self.Up3_thin(d4_thin)  # x3
         d3_thin = torch.cat((x2, d3_thin), dim=1)
         d3_thin = self.Up_conv3_thin(d3_thin)

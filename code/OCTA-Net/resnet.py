@@ -85,7 +85,7 @@ class Bottleneck(nn.Module):
 
         self.conv3 = nn.Conv2d(
             group_width, planes * 4, kernel_size=1, bias=False)
-        self.bn3 = norm_layer(planes*4)
+        self.bn3 = norm_layer(planes * 4)
 
         if last_gamma:
             from torch.nn.init import zeros_
@@ -178,6 +178,8 @@ class ResNet(nn.Module):
         super(ResNet, self).__init__()
         self.rectified_conv = rectified_conv
         self.rectify_avg = rectify_avg
+
+        # NOTE:usage of rectified convolution?!
         if rectified_conv:
             from rfconv import RFConv2d
             conv_layer = RFConv2d

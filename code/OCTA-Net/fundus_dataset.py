@@ -111,11 +111,11 @@ def extract_ordered_overlap(full_img, crop_size=(64, 64), stride=(5, 5)):
     for h in range((img_h - crop_size[0]) // stride[0] + 1):
         for w in range((img_w - crop_size[1]) // stride[1] + 1):
             if len(full_img.shape) == 3:
-                patches[iter_tot, 0, :, :] = full_img[h*stride[0]:h*stride[0]+crop_size[0], w*stride[1]:w*stride[1]+crop_size[1], 0]
-                patches[iter_tot, 1, :, :] = full_img[h*stride[0]:h*stride[0]+crop_size[0], w*stride[1]:w*stride[1]+crop_size[1], 1]
-                patches[iter_tot, 2, :, :] = full_img[h*stride[0]:h*stride[0]+crop_size[0], w*stride[1]:w*stride[1]+crop_size[1], 2]
+                patches[iter_tot, 0, :, :] = full_img[h * stride[0]:h * stride[0] + crop_size[0], w * stride[1]:w * stride[1] + crop_size[1], 0]
+                patches[iter_tot, 1, :, :] = full_img[h * stride[0]:h * stride[0] + crop_size[0], w * stride[1]:w * stride[1] + crop_size[1], 1]
+                patches[iter_tot, 2, :, :] = full_img[h * stride[0]:h * stride[0] + crop_size[0], w * stride[1]:w * stride[1] + crop_size[1], 2]
             else:
-                patches[iter_tot, 0, :, :] = full_img[h*stride[0]:h*stride[0]+crop_size[0], w*stride[1]:w*stride[1]+crop_size[1]]
+                patches[iter_tot, 0, :, :] = full_img[h * stride[0]:h * stride[0] + crop_size[0], w * stride[1]:w * stride[1] + crop_size[1]]
             iter_tot += 1   # total
     assert iter_tot == N_patches_img  # N_patches_tot
 

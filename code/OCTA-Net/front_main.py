@@ -58,6 +58,7 @@ if isTraining:  # train
     best_thin = {"epoch": 0, "dice": 0, "auc": 0}
     best_thick = {"epoch": 0, "dice": 0, "auc": 0}
     best_fusion = {"epoch": 0, "dice": 0, "auc": 0}
+
     # start training
     print("Start training...")
     for epoch in range(args.first_epochs):
@@ -72,11 +73,6 @@ if isTraining:  # train
                                                      args.save_epoch_freq, args.models_dir + "/" + sub_dir,
                                                      args.results_dir + "/" + sub_dir, epoch, args.first_epochs)
 
-            # first_net, best_thin, best_thick, best_fusion = val_first_stage(best_thin, best_thick, best_fusion,
-            #                                                                 viz, writer, val_dataloader, first_net,
-            #                                                                 thin_criterion, thick_criterion, fusion_criterion, device,
-            #                                                                 args.save_epoch_freq, args.models_dir + "/" + sub_dir,
-            #                                                                 args.results_dir + "/" + sub_dir, epoch, args.first_epochs)
     print("Training finished.")
 
 else:  # test

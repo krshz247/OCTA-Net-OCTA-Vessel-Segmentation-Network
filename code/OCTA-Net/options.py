@@ -31,7 +31,7 @@ parser.add_argument("--pn_size", type=int, default=3, help="size of propagation 
 parser.add_argument("--base_channels", type=int, default=64, help="basic channels")
 
 # results
-parser.add_argument('--port', type=int, default=8065, help="port to Visdom visulization")
+parser.add_argument('--port', type=int, default=8051, help="port to Visdom visulization")
 parser.add_argument("--logs_dir", type=str, default="logs", help="path to folder for saving logs")
 parser.add_argument("--models_dir", type=str, default="models", help="path to folder for saving models")
 parser.add_argument("--results_dir", type=str, default="results", help="path to folder for saving results")

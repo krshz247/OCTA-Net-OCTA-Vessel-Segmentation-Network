@@ -84,7 +84,7 @@ def val_first_stage(best_thin, best_thick, best_fusion, viz, writer, dataloader,
     if (epoch + 1) % save_epoch_freq == 0:
         # torch.save(net, checkpoint_path.format(net="front_model", epoch=epoch+1,
         #            thin_AUC=thin_auc, thick_AUC=thick_auc, fusion_AUC=fusion_auc))
-        torch.save(net, checkpoint_path.format(net="front_model", epoch=epoch+1, fusion_AUC=fusion_auc))
+        torch.save(net, checkpoint_path.format(net="front_model", epoch=epoch + 1, fusion_AUC=fusion_auc))
     if epoch == num_epochs - 1:
         torch.save(net, os.path.join(models_dir, "front_model-latest.pth"))
     net.train(mode=True)
@@ -92,7 +92,8 @@ def val_first_stage(best_thin, best_thick, best_fusion, viz, writer, dataloader,
     return net, best_fusion  # best_thin, best_thick, best_fusion
 
 
-def val_second_stage(best_fusion, viz, writer, dataloader, first_net_thick, first_net_thin, fusion_net, criterion, device, save_epoch_freq, models_dir, results_dir, epoch, num_epochs=100):
+def val_second_stage(best_fusion, viz, writer, dataloader, first_net_thick, first_net_thin, fusion_net, criterion, device, save_epoch_freq,
+                     models_dir, results_dir, epoch, num_epochs=100):
     fusion_net.eval()
     loss_arr, auc_arr, acc_arr, sen_arr, fdr_arr, spe_arr, kappa_arr, gmean_arr, iou_arr, dice_arr = test_second_stage(
         dataloader, first_net_thick, first_net_thin, fusion_net, device, results_dir, criterion, isSave=True)
@@ -108,7 +109,7 @@ def val_second_stage(best_fusion, viz, writer, dataloader, first_net_thick, firs
 
     checkpoint_path = os.path.join(models_dir, "{net}-{epoch}-{AUC}.pth")
     if (epoch + 1) % save_epoch_freq == 0:
-        torch.save(fusion_net, checkpoint_path.format(net="fusion_model", epoch=epoch+1, AUC=fusion_auc))
+        torch.save(fusion_net, checkpoint_path.format(net="fusion_model", epoch=epoch + 1, AUC=fusion_auc))
     if epoch == num_epochs - 1:
         torch.save(fusion_net, os.path.join(models_dir, "fusion_model-latest.pth"))
     fusion_net.train(mode=True)

@@ -11,7 +11,8 @@ from utils import mkdir
 from evaluation import *
 
 
-def get_results(loss_lst, auc_lst, acc_lst, sen_lst, fdr_lst, spe_lst, kappa_lst, gmean_lst, iou_lst, dice_lst, dataloader, results_dir, criterion, pred, gt, mask_arr=None, isSave=True):
+def get_results(loss_lst, auc_lst, acc_lst, sen_lst, fdr_lst, spe_lst, kappa_lst, gmean_lst, iou_lst, dice_lst, dataloader, results_dir, criterion,
+                pred, gt, mask_arr=None, isSave=True):
     if criterion is not None:
         loss_lst.append(criterion(pred, gt).item())
 

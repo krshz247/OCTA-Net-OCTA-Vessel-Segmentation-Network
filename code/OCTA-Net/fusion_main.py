@@ -47,10 +47,10 @@ if isTraining:  # train
     # first_optim = optim.Adam(first_net.parameters(), lr=args.init_lr, weight_decay=args.weight_decay)
 
     # TODO: where do saved thick and thin networks come from and how they are created?
-    first_net_thick = torch.load(args.models_dir + "/" + args.dataset + "/first_stage/front_model-" + args.first_suffix).to(device)  # two stage时可以加载first_stage和second_stage的模型
+    first_net_thick = torch.load(args.models_dir + "/" + args.dataset + "/first_stage/front_model-" + args.first_suffix).to(device)
     first_net_thick = first_net_thick.module
     first_net_thick.eval()
-    first_net_thin = torch.load(args.models_dir + "/" + args.dataset + "/first_stage/front_model-" + args.first_suffix1).to(device)  # two stage时可以加载first_stage和second_stage的模型
+    first_net_thin = torch.load(args.models_dir + "/" + args.dataset + "/first_stage/front_model-" + args.first_suffix1).to(device)
     first_net_thin = first_net_thin.module
     first_net_thin.eval()
     second_net = fusion(channels=args.base_channels, pn_size=args.pn_size, kernel_size=3, avg=0.0, std=0.1).to(device)  # ##
@@ -59,9 +59,9 @@ if isTraining:  # train
     # second_net = second_net
     second_optim = optim.Adam(second_net.parameters(), lr=args.init_lr, weight_decay=args.weight_decay)
 
-    thick_criterion = torch.nn.MSELoss()  # 可更改
-    thin_criterion = torch.nn.MSELoss()  # 可更改
-    fusion_criterion = torch.nn.MSELoss()  # 可更改
+    thick_criterion = torch.nn.MSELoss()
+    thin_criterion = torch.nn.MSELoss()
+    fusion_criterion = torch.nn.MSELoss()
 
     best_fusion = {"epoch": 217, "auc": 0.86}
     # start training
@@ -79,13 +79,13 @@ if isTraining:  # train
 else:  # test
     # 加载数据集和模型
     test_dataloader = DataLoader(database, batch_size=1)
-    first_net = torch.load(args.models_dir + "/" + args.dataset + "/first_stage/front_model-" + args.first_suffix).to(device)  # two stage时可以加载first_stage和second_stage的模型
+    first_net = torch.load(args.models_dir + "/" + args.dataset + "/first_stage/front_model-" + args.first_suffix).to(device)
     first_net = first_net.module
     first_net.eval()
-    first_net1 = torch.load(args.models_dir + "/" + args.dataset + "/first_stage/front_model-" + args.first_suffix1).to(device)  # two stage时可以加载first_stage和second_stage的模型
+    first_net1 = torch.load(args.models_dir + "/" + args.dataset + "/first_stage/front_model-" + args.first_suffix1).to(device)
     first_net1 = first_net1.module
     first_net1.eval()
-    second_net = torch.load(args.models_dir + "/" + sub_dir + "/fusion_model-" + args.second_suffix).to(device)  # two stage时可以加载first_stage和second_stage的模型
+    second_net = torch.load(args.models_dir + "/" + sub_dir + "/fusion_model-" + args.second_suffix).to(device)
     second_net.eval()
 
     # start testing
