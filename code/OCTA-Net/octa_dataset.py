@@ -55,7 +55,7 @@ class OCTA(data.Dataset):
             img = img.convert("RGB")
 
         gt = np.array(gt)
-        gt[gt >= 128] = 255
+        gt[gt >= 90] = 255
         gt[gt < 128] = 0
         gt = Image.fromarray(gt)
 
